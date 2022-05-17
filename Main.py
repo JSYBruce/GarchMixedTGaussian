@@ -31,6 +31,3 @@ def runModelSingleGuassian(Coinname, Model):
     gjrgarch_gm = arch_model(coin_df.returns, p=1, q=1, mean='constant', vol='GARCH', dist = Model) 
     result = gjrgarch_gm.fit()
     print(result.summary())
-
-coinname = input("Please input a Coin Name:")
-runModel(coinname)
