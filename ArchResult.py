@@ -605,16 +605,22 @@ class ARCHModelResult(ARCHModelFixedResult):
         """
         return self._nobs
     
+    
     @cached_property
     def param_cov(self) -> pd.DataFrame:
         """Parameter covariance"""
+        print("param_cov")
+        self.cov_type = "robust"
         if self._param_cov is not None:
+            print("param_cov_None")
             param_cov = self._param_cov
         else:
             params = np.asarray(self.params)
             if self.cov_type == "robust":
+                print("robust")
                 param_cov = self.model.compute_param_cov(params)
             else:
+                print("not robust")
                 param_cov = self.model.compute_param_cov(params, robust=False)
         return pd.DataFrame(param_cov, columns=self._names, index=self._names)
     
