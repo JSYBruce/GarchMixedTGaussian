@@ -364,7 +364,24 @@ class ARCHModel():
         loglikelihood = -1.0 * opt.fun
 
         mp, vp, dp, weight, nu = self._parse_parameters(params)
-
+        resids1 = self.resids(mp[0])
+        resids2 = self.resids(mp[1])
+        
+        sigma1, sigma2 = self.volatility.compute_variance(
+            vp, resids1, resids2, sigma1, sigma2, backcast, var_bounds
+        )
+        import pickle
+        with open("sigma1_data", "wb") as fp:   #Pickling
+            pickle.dump(sigma1, fp)
+        
+        with open("sigma2_data", "wb") as fp:   #Pickling
+            pickle.dump(sigma2, fp)
+            
+        with open("resids1", "wb") as fp:   #Pickling
+            pickle.dump(resids1, fp)
+        
+        with open("resids2", "wb") as fp:   #Pickling
+            pickle.dump(resids2, fp)
 
         sigma1, sigma2 = self.volatility.compute_variance(
             np.append(vp,nu), resids1, resids2, sigma1, sigma2, backcast, var_bounds

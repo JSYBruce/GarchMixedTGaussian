@@ -23,11 +23,11 @@ def runModel(Coinname):
     result = ARCHModelResult(result[0], None,  result[1],  result[2], result[3], result[4], result[5], result[6], result[7], result[8], result[9], result[10], result[11], result[12])
     print(result.summary())
     
-def runModelSingleGuassian(Coinname, Model):
+def runModelSingle(Coinname, Model):
     with open(Coinname + '_data', 'rb') as f:
         coin_df = pickle.load(f)
     coin_df['returns'] = np.log(coin_df[Coinname]).diff().mul(100).dropna()
     coin_df.dropna(inplace=True)
     gjrgarch_gm = arch_model(coin_df.returns, p=1, q=1, mean='constant', vol='GARCH', dist = Model) 
     result = gjrgarch_gm.fit()
-    print(result.summary())
+    return result
